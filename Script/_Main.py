@@ -1,7 +1,7 @@
 import DataPreprocessing as DP
 
 def MainStep():
-    df = DP.Preprocessing()
-    print(df)
+    OrderDf, ProductDf = DP.PreProcessing()
+    print(OrderDf.head(), ProductDf.head())
 
 MainStep()
