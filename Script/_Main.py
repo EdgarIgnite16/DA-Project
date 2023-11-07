@@ -4,4 +4,5 @@ def MainStep():
     OrderDf, ProductDf = DP.PreProcessing()
     print(OrderDf.head(), ProductDf.head())
 
-MainStep()
+if __name__ == '__main__':
+    MainStep()
