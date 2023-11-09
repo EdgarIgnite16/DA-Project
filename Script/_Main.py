@@ -1,8 +1,9 @@
-import DataPreprocessing as DP
+import DataPreprocessing as DPre
+import DataAnalysis as DAna
 
 def MainStep():
-    OrderDf, ProductDf = DP.PreProcessing()
-    print(OrderDf.head(), ProductDf.head())
+    OrderDf, ProductDf = DPre.PreProcessing()
+    DAna.Analysis(ProductDf)
 
 if __name__ == '__main__':
     MainStep()
