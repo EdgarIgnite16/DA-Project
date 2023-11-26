@@ -23,16 +23,16 @@ from sklearn import metrics
 # hàm chính
 def Analysis(dataframe, originDF):
     # Hiển thị thông tin dataframe thông qua biểu đồ
-    # highestProfitMargins(dataframe)
-    # productLagestAndSmallest(dataframe)
-    # pricesVaryWithinCategories_WS(dataframe)
-    # pricesVaryWithinCategories_Re(dataframe)
+    highestProfitMargins(dataframe)
+    productLagestAndSmallest(dataframe)
+    pricesVaryWithinCategories_WS(dataframe)
+    pricesVaryWithinCategories_Re(dataframe)
     # describeDF(dataframe) # Mô tả thông số thống kê
 
     # Tiến hành phân tích tập dữ liệu:
     # showGraph(dataframe)
     # DA(dataframe)
-    Advanced(originDF)
+    # Advanced(originDF)
 
 # ==================================================== #
 # Hiển thị biểu đồ tỷ suất lợi nhuận
@@ -96,7 +96,7 @@ def pricesVaryWithinCategories_WS(df):
     fig.show()
 
 # Retail - Bán lẻ
-def pricesVaryWithinCategories_Re(df): 
+def pricesVaryWithinCategories_Re(df):
     fig = px.histogram(df, x="Retail Price", y="Total Sold", marginal="box", hover_data=df.columns)
     fig.update_traces(marker_line_width=0.1,marker_line_color="white")
     fig.update_xaxes(rangemode="tozero")
@@ -136,13 +136,13 @@ def DA(df):
     print("Thực hiện Linear Regression 2 Variable")
     # Kiểm thử và huấn luyện mô hình
     # Huấn luyện trên 2 biến: Wholesale Price và Total Sold
-    y_lnr2 = df["Retail Price"] # Gọi y là biến cần tìm 
-    x_lnr2 = df[['Wholesale Price', 'Total Sold']] # Gọi x là mối tương quan cần tìm kiếm
+    y_lnr2 = df["Retail Price"] # Gọi y là biến cần tìm (biến phụ thuộc)
+    x_lnr2 = df[['Wholesale Price', 'Total Sold']] # Gọi x là mối tương quan cần tìm kiếm (biến độc lập)
     x_train_lnr2, x_test_lnr2, y_train_lnr2, y_test_lnr2 = train_test_split(x_lnr2, y_lnr2, test_size=0.3, random_state=101)
 
     # Bắt đầu huấn luyện mô hình
     lm2 = LinearRegression()
-    lm2.fit(x_train_lnr2,y_train_lnr2)
+    lm2.fit(x_train_lnr2,y_train_lnr2) # x_train, y_train
     print(lm2.coef_) # in kết quả huấn luyện
 
     # Dự đoán dữ liệu thử nghiệm
@@ -174,14 +174,14 @@ def DA(df):
     print("Thực hiện Linear Regression 1 Variable")
     # Kiểm thử và huấn luyện mô hình
     # Huấn luyện trên 1 biến: Wholesale Price
-    y_lnr1 = df["Retail Price"] # Gọi y là biến cần tìm 
-    x_lnr1 = df[['Wholesale Price']] # Gọi x là mối tương quan cần tìm kiếm
+    y_lnr1 = df["Retail Price"] # Gọi y là biến cần tìm (biến phụ thuộc)
+    x_lnr1 = df[['Wholesale Price']] # Gọi x là mối tương quan cần tìm kiếm (biến độc lập)
     x_train_lnr1, x_test_lnr1, y_train_lnr1, y_test_lnr1 = train_test_split(x_lnr1, y_lnr1, test_size=0.3, random_state=101)
     
     # Bắt đầu huấn luyện mô hình
     lm1 = LinearRegression()
     lm1.fit(x_train_lnr1, y_train_lnr1)
-    print(lm1.coef_)
+    # print(lm1.coef_)
 
     # Dự đoán dữ liệu thử nghiệm
     predictions_lnr1 = lm1.predict(x_test_lnr1)
@@ -190,20 +190,20 @@ def DA(df):
     plt_lnr1.ylabel("Predicted Values")
 
     # Đánh giá mô hình
-    print("MAE: ", metrics.mean_absolute_error(y_test_lnr1, predictions_lnr1))
-    print("MSE: ", metrics.mean_squared_error(y_test_lnr1, predictions_lnr1))
-    print("RMSE: ", np.sqrt(metrics.mean_squared_error(y_test_lnr1, predictions_lnr1)))
+    # print("MAE: ", metrics.mean_absolute_error(y_test_lnr1, predictions_lnr1))
+    # print("MSE: ", metrics.mean_squared_error(y_test_lnr1, predictions_lnr1))
+    # print("RMSE: ", np.sqrt(metrics.mean_squared_error(y_test_lnr1, predictions_lnr1)))
 
     r2_lin1v = metrics.explained_variance_score(y_test_lnr1, predictions_lnr1) # hàm tính điểm số hồi quy (1.0 là cao nhất)
-    print("Điểm số hồi quy: ", r2_lin1v) 
+    # print("Điểm số hồi quy: ", r2_lin1v) 
 
     # Dư lượng
     sns_lnr1.displot((y_test_lnr1 - predictions_lnr1), kde=True, bins=50)
-    plt_lnr1.show() # Hiển thị
+    # plt_lnr1.show() # Hiển thị
 
     # Hệ số
     cdf_lnr1 = pd.DataFrame(lm1.coef_, x_lnr1.columns, columns=["Coefficient"])
-    print(cdf_lnr1)
+    # print(cdf_lnr1)
 
     # ==================================================================== # SVR
     print("Thực hiện SVR")
@@ -251,13 +251,13 @@ def DA(df):
     sns_svr.scatterplot(ax=axes[2], x=y_test_svr, y=predictions_poly)
     axes[2].set_title('Poly')
 
-    plt_svr.show() # Hiển thị
+    # plt_svr.show() # Hiển thị
 
     # Đánh giá điểm số phương sai
     r2_rbf = metrics.explained_variance_score(y_test_svr, predictions_rbf)
     r2_lin = metrics.explained_variance_score(y_test_svr, predictions_lin)
     r2_poly = metrics.explained_variance_score(y_test_svr, predictions_poly)
-    print(r2_rbf, r2_lin, r2_poly)
+    # print(r2_rbf, r2_lin, r2_poly)
 
     # ==================================================================== # Giả định
     print("Thực hiện giả định")
@@ -276,7 +276,7 @@ def DA(df):
     cdf_predict = pd.DataFrame([single_prediction2v, single_prediction1v, single_prediction_rbf, single_prediction_lin, single_prediction_poly],
                        ['LinReg 2v', 'LinReg 1v', 'SVR RBF', 'SVR Linear', 'SVR Poly'], 
                        columns=["Predictions"])
-    print(cdf_predict)
+    # print(cdf_predict)
     
     # ==================================================================== # Thực nghiệm trên dữ liệu
     print("Thực hiện thực nghiệm trên dữ liệu")
@@ -300,14 +300,13 @@ def DA(df):
     sns_all.regplot(x=real_retail_upto300, y=rbf_prediction, color='red', scatter=False)
     sns_all.regplot(x=real_retail_upto300, y=lin_prediction, color='orange', scatter=False)
     sns_all.regplot(x=real_retail_upto300, y=poly_prediction, color='green', scatter=False)
-    plt_all.show() # Hiển thị
+    # plt_all.show() # Hiển thị
 
 
     cdf_all = pd.DataFrame([r2_lin2v, r2_lin1v, r2_rbf, r2_lin, r2_poly],['LinReg 2v', 'LinReg 1v', 'SVR RBF', 'SVR Linear', 'SVR Poly'], columns=["R2"])
-    print(cdf_all)
+    # print(cdf_all)
 
     # kết luận Phương pháp huấn luyện mô hình tốt nhất là SVR Poly
-
 
 def Advanced(df):
     dfDate = df
@@ -341,7 +340,7 @@ def Advanced(df):
         gridcolor='lightgrey'
     )
 
-    fig.show()
+    # fig.show()
 
     # Kết luận: Không có lợi thế gì khi trở thành khách hàng Bạch kim liên quan đến việc giao hàng trễ
 
