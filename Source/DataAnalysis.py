@@ -260,7 +260,7 @@ def DA(df):
 
     plt_svr.show() # Hiển thị
 
-    # Đánh giá điểm số phương sai
+    # Đánh giá điểm số phương sai (điểm số hồi quy)
     r2_rbf = metrics.explained_variance_score(y_test_svr, predictions_rbf)
     r2_lin = metrics.explained_variance_score(y_test_svr, predictions_lin)
     r2_poly = metrics.explained_variance_score(y_test_svr, predictions_poly)
@@ -268,10 +268,10 @@ def DA(df):
 
     # ==================================================================== # Giả định
     print("Thực hiện giả định")
-    # Dự đoán giá bán lẻ của một mặt hàng có giá bán buôn là 199,99 và tổng lượng bán dự kiến ​​là 500 trong 5 năm
+    # Dự đoán giá bán lẻ của một mặt hàng có giá bán sỉ là 199,99 và tổng lượng bán dự kiến ​​là 500 trong 5 năm
     new_product2v = [[199.99, 500]]
     new_product1v = [[199.99]]
-    new_product2v_svr = scaler.transform(new_product2v)
+    new_product2v_svr = scaler.transform([[199.99, 500]])
 
     single_prediction2v = lm2.predict(new_product2v)
     single_prediction1v = lm1.predict(new_product1v)
@@ -285,7 +285,7 @@ def DA(df):
                        columns=["Predictions"])
     print(cdf_predict)
     
-    # ==================================================================== # Thực nghiệm trên dữ liệu
+    # ==================================================================== # Thử nghiệm độ lệch trên các phương pháp
     print("Thực hiện thực nghiệm trên dữ liệu")
 
     real_variables_2v = df.loc[df["Retail Price"].isin(list(range(0,301)))][["Wholesale Price", "Total Sold"]].values
@@ -301,7 +301,7 @@ def DA(df):
     lin_prediction = svr_lin.predict(real_variables_2v_svr)
     poly_prediction = svr_poly.predict(real_variables_2v_svr)
 
-    sns_all.scatterplot(x=real_retail_upto300, y=real_retail_upto300, color='black')
+    sns_all.regplot(x=real_retail_upto300, y=real_retail_upto300, color='black', scatter=False)
     sns_all.regplot(x=real_retail_upto300, y=lin_reg_prediction2v, color='blue', scatter=False)
     sns_all.regplot(x=real_retail_upto300, y=lin_reg_prediction1v, color='yellow', scatter=False)
     sns_all.regplot(x=real_retail_upto300, y=rbf_prediction, color='red', scatter=False)
@@ -309,10 +309,11 @@ def DA(df):
     sns_all.regplot(x=real_retail_upto300, y=poly_prediction, color='green', scatter=False)
     plt_all.show() # Hiển thị
 
-
-    cdf_all = pd.DataFrame([r2_lin2v, r2_lin1v, r2_rbf, r2_lin, r2_poly],['LinReg 2v', 'LinReg 1v', 'SVR RBF', 'SVR Linear', 'SVR Poly'], columns=["R2"])
+    # So sánh điểm số hồi quy giữa các phương pháp
+    cdf_all = pd.DataFrame([r2_lin2v, r2_lin1v, r2_rbf, r2_lin, r2_poly],
+                           ['LinReg 2v', 'LinReg 1v', 'SVR RBF', 'SVR Linear', 'SVR Poly'], 
+                           columns=["R2"])
     print(cdf_all)
-
     # kết luận Phương pháp huấn luyện mô hình tốt nhất là SVR Poly
 
 def Advanced(df):
@@ -350,4 +351,3 @@ def Advanced(df):
     # fig.show()
 
     # Kết luận: Không có lợi thế gì khi trở thành khách hàng Bạch kim liên quan đến việc giao hàng trễ
-
