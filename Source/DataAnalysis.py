@@ -27,11 +27,11 @@ def Analysis(dataframe, originDF):
     # pricesVaryWithinCategories_WS(dataframe)
     # pricesVaryWithinCategories_Re(dataframe)
     # describeDF(dataframe) # Mô tả thông số thống kê
+    ShowValuebaleBetweenCustomerRank(originDF)
 
     # Tiến hành phân tích tập dữ liệu:
     # showGraph(dataframe)
-    DA(dataframe)
-    # Advanced(originDF)
+    # DA(dataframe)
 
 # ==================================================== #
 # Hiển thị biểu đồ tỷ suất lợi nhuận
@@ -118,10 +118,50 @@ def pricesVaryWithinCategories_Re(df):
 
     fig.show()
 
+# Hiển thị điểm khác biệt giữa các rank thành viên người dùng
+def ShowValuebaleBetweenCustomerRank(df):
+
 # Mô tả dữ liệu thống kê
 def describeDF(df):
     print(df['Wholesale Price'].describe())
     print(df['Retail Price'].describe())
+
+# Hiển thị điểm khác biệt giữa các rank thành viên người dùng
+def ShowValuebaleBetweenCustomerRank(df):
+    dfDate = df
+    dfDate['Delay for Delivery'] = dfDate['Delivery Date'] - dfDate['Date Order was placed']
+    dfDate = dfDate.drop(columns=['Customer ID', 'Order ID', 'Product ID', 'Quantity Ordered', 'Total Retail Price for This Order', 
+                                 'Cost Price Per Unit', 'Item Retail Value'])
+    
+    dfDate.head() # Kiếm tra
+    dfDate.info() # Kiểm tra
+    
+    dfDate["Delay for Delivery"] = (df["Delay for Delivery"]).dt.days # chuyển đổi kiểu dữ liệu
+    dfDate.info()
+
+    dfAvg = dfDate.groupby('Customer Status')[['Delay for Delivery']].mean() # Gom cụm và tính trung bình
+    dfAvg = dfAvg.reset_index()
+    dfAvg.head()
+
+    fig = px.bar(dfAvg, x="Customer Status", y='Delay for Delivery', color="Customer Status",
+             color_discrete_map={
+                'Platinum' : 'LightCyan',
+                'Gold' : 'Gold',
+                'Silver' : 'Silver'
+            })
+
+    fig.update_layout(xaxis={'categoryorder':'total descending'}, plot_bgcolor='white', showlegend=False)
+    fig.update_yaxes(
+        mirror=True,
+        ticks='outside',
+        showline=True,
+        linecolor='black',
+        gridcolor='lightgrey'
+    )
+
+    fig.show()  
+
+    # Kết luận: Không có lợi thế gì khi trở thành khách hàng Bạch kim liên quan đến việc giao hàng trễ
 
 # ==================================================== #
 # Phân tích dữ liệu
@@ -133,7 +173,7 @@ def showGraph(df):
 def DA(df):
     # ==================================================================== # LNR2
     print("Thực hiện Linear Regression 2 Variable")
-    # Kiểm thử và huấn luyện mô hình
+    # Kiểm thử và huấn luyện mô hình    
     # Huấn luyện trên 2 biến: Wholesale Price và Total Sold
     y_lnr2 = df["Retail Price"] # Gọi y là biến cần tìm (biến phụ thuộc)
     x_lnr2 = df[['Wholesale Price', 'Total Sold']] # Gọi x là mối tương quan cần tìm kiếm (biến độc lập)
@@ -316,38 +356,3 @@ def DA(df):
     print(cdf_all)
     # kết luận Phương pháp huấn luyện mô hình tốt nhất là SVR Poly
 
-def Advanced(df):
-    dfDate = df
-    dfDate['Delay for Delivery'] = dfDate['Delivery Date'] - dfDate['Date Order was placed']
-    dfDate = dfDate.drop(columns=['Customer ID', 'Order ID', 'Product ID', 'Quantity Ordered', 'Total Retail Price for This Order', 
-                                 'Cost Price Per Unit', 'Item Retail Value'])
-    
-    dfDate.head() # Kiếm tra
-    dfDate.info() # Kiểm tra
-    
-    dfDate["Delay for Delivery"] = (df["Delay for Delivery"]).dt.days # chuyển đổi kiểu dữ liệu
-    dfDate.info()
-
-    dfAvg = dfDate.groupby('Customer Status')[['Delay for Delivery']].mean() # Gom cụm và tính trung bình
-    dfAvg = dfAvg.reset_index()
-    dfAvg.head()
-
-    fig = px.bar(dfAvg, x="Customer Status", y='Delay for Delivery', color="Customer Status",
-             color_discrete_map={
-                'Platinum' : 'LightCyan',
-                'Gold' : 'Gold',
-                'Silver' : 'Silver'
-            })
-
-    fig.update_layout(xaxis={'categoryorder':'total descending'}, plot_bgcolor='white', showlegend=False)
-    fig.update_yaxes(
-        mirror=True,
-        ticks='outside',
-        showline=True,
-        linecolor='black',
-        gridcolor='lightgrey'
-    )
-
-    # fig.show()
-
-    # Kết luận: Không có lợi thế gì khi trở thành khách hàng Bạch kim liên quan đến việc giao hàng trễ
