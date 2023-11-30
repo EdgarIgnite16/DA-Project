@@ -11,7 +11,6 @@ import seaborn as sns_lnr1
 import seaborn as sns_svr
 import seaborn as sns_all
 
-
 import plotly.express as px
 
 from sklearn.model_selection import train_test_split
@@ -23,15 +22,15 @@ from sklearn import metrics
 # hàm chính
 def Analysis(dataframe, originDF):
     # Hiển thị thông tin dataframe thông qua biểu đồ
-    highestProfitMargins(dataframe)
-    productLagestAndSmallest(dataframe)
-    pricesVaryWithinCategories_WS(dataframe)
-    pricesVaryWithinCategories_Re(dataframe)
+    # highestProfitMargins(dataframe)
+    # productLagestAndSmallest(dataframe)
+    # pricesVaryWithinCategories_WS(dataframe)
+    # pricesVaryWithinCategories_Re(dataframe)
     # describeDF(dataframe) # Mô tả thông số thống kê
 
     # Tiến hành phân tích tập dữ liệu:
     # showGraph(dataframe)
-    # DA(dataframe)
+    DA(dataframe)
     # Advanced(originDF)
 
 # ==================================================== #
@@ -167,7 +166,7 @@ def DA(df):
     # Hệ số
     cdf_lnr2 = pd.DataFrame(lm2.coef_, x_lnr2.columns, columns=["Coefficient"])
     print(cdf_lnr2) 
-    # => Vậy không có mối tương quan với cột Total Sold, loại bỏ nó ra khỏi dữ liệu phân tích
+    # => Vậy không có mối tương quan với cột Total Sold, loại bỏ nó ra khỏi dữ liệu phân tích đối với linear regression
     # => Lặp lại điều tương tự mà không có hệ số đó
 
     # ==================================================================== # LNR1
@@ -207,8 +206,8 @@ def DA(df):
 
     # ==================================================================== # SVR
     print("Thực hiện SVR")
-    y_svr = df["Retail Price"]
-    x_svr = df[['Wholesale Price', 'Total Sold']]
+    y_svr = df["Retail Price"] # Biến phụ thuộc
+    x_svr = df[['Wholesale Price', 'Total Sold']] # Biến độc lập
 
     x_train_svr, x_test_svr, y_train_svr, y_test_svr = train_test_split(x_svr, y_svr, test_size=0.3, random_state=101)
 
@@ -235,7 +234,6 @@ def DA(df):
     # Hiển thị tập dữ liệu vừa huấn luyện thành dạng mô hình lên màn hình
     fig, axes = plt_svr.subplots(1, 3, figsize=(12, 8), sharey=True)
     fig.suptitle('SVR')
-
     fig.supylabel('Predicted Values')
     fig.supxlabel('Y Test (True Values)')
 
