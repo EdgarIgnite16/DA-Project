@@ -27,11 +27,10 @@ def Analysis(dataframe, originDF):
     # pricesVaryWithinCategories_WS(dataframe)
     # pricesVaryWithinCategories_Re(dataframe)
     # describeDF(dataframe) # Mô tả thông số thống kê
-    ShowValuebaleBetweenCustomerRank(originDF)
+    # ShowValuebaleBetweenCustomerRank(originDF)
 
     # Tiến hành phân tích tập dữ liệu:
-    # showGraph(dataframe)
-    # DA(dataframe)
+    DA(dataframe)
 
 # ==================================================== #
 # Hiển thị biểu đồ tỷ suất lợi nhuận
@@ -118,9 +117,6 @@ def pricesVaryWithinCategories_Re(df):
 
     fig.show()
 
-# Hiển thị điểm khác biệt giữa các rank thành viên người dùng
-def ShowValuebaleBetweenCustomerRank(df):
-
 # Mô tả dữ liệu thống kê
 def describeDF(df):
     print(df['Wholesale Price'].describe())
@@ -165,11 +161,6 @@ def ShowValuebaleBetweenCustomerRank(df):
 
 # ==================================================== #
 # Phân tích dữ liệu
-def showGraph(df): 
-    sns_test.lmplot(x="Wholesale Price", y="Retail Price", data=df, line_kws={'color': 'red'}) # Hiển thị biểu đồ dạng
-    sns_test.pairplot(df) # Hiển thị các biểu đồ của từng cột
-    plt_test.show() # Hiển thị
-
 def DA(df):
     # ==================================================================== # LNR2
     print("Thực hiện Linear Regression 2 Variable")
@@ -355,4 +346,3 @@ def DA(df):
                            columns=["R2"])
     print(cdf_all)
     # kết luận Phương pháp huấn luyện mô hình tốt nhất là SVR Poly
-
