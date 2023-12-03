@@ -27,7 +27,6 @@ def Analysis(dataframe, originDF):
     # ShowValuebaleBetweenCustomerRank(originDF
     # describeDF(dataframe) # Mô tả thông số thống kê
 
-    print(dataframe)
     # Data Analyst
     DA(dataframe)
 
@@ -161,86 +160,86 @@ def describeDF(df):
 # ==================================================== #
 # Phân tích dữ liệu
 def DA(df):
-    # ==================================================================== # LNR2
-    print("Thực hiện Linear Regression 2 Variable")
-    # Kiểm thử và huấn luyện mô hình    
-    # Huấn luyện trên 2 biến: Wholesale Price và Total Sold
-    y_lnr2 = df["Retail Price"] # Gọi y là biến cần tìm (biến phụ thuộc)
-    x_lnr2 = df[['Wholesale Price', 'Total Sold']] # Gọi x là mối tương quan cần tìm kiếm (biến độc lập)
-    x_train_lnr2, x_test_lnr2, y_train_lnr2, y_test_lnr2 = train_test_split(x_lnr2, y_lnr2, test_size=0.3, random_state=101)
+#     # ==================================================================== # LNR2
+#     print("Thực hiện Linear Regression 2 Variable")
+#     # Kiểm thử và huấn luyện mô hình    
+#     # Huấn luyện trên 2 biến: Wholesale Price và Total Sold
+#     y_lnr2 = df["Retail Price"] # Gọi y là biến cần tìm (biến phụ thuộc)
+#     x_lnr2 = df[['Wholesale Price', 'Total Sold']] # Gọi x là mối tương quan cần tìm kiếm (biến độc lập)
+#     x_train_lnr2, x_test_lnr2, y_train_lnr2, y_test_lnr2 = train_test_split(x_lnr2, y_lnr2, test_size=0.3, random_state=101)
 
-    # Bắt đầu huấn luyện mô hình
-    lm2 = LinearRegression()
-    lm2.fit(x_train_lnr2,y_train_lnr2) # x_train, y_train
+#     # Bắt đầu huấn luyện mô hình
+#     lm2 = LinearRegression()
+#     lm2.fit(x_train_lnr2,y_train_lnr2) # x_train, y_train
 
-    # Dự đoán dữ liệu thử nghiệm
-    predictions_lnr2 = lm2.predict(x_test_lnr2)
-    sns_lnr2.scatterplot(x=y_test_lnr2, y=predictions_lnr2)
-    plt_lnr2.title("Dự đoán dữ liệu thử nghiệm LNR-2")
-    plt_lnr2.xlabel("Y Test (True Values)")
-    plt_lnr2.ylabel("Predicted Values")
-    plt_lnr2.grid(True)
+#     # Dự đoán dữ liệu thử nghiệm
+#     predictions_lnr2 = lm2.predict(x_test_lnr2)
+#     sns_lnr2.scatterplot(x=y_test_lnr2, y=predictions_lnr2)
+#     plt_lnr2.title("Dự đoán dữ liệu thử nghiệm LNR-2")
+#     plt_lnr2.xlabel("Y Test (True Values)")
+#     plt_lnr2.ylabel("Predicted Values")
+#     plt_lnr2.grid(True)
 
-    # Đánh giá mô hình
-    print("MAE: ", metrics.mean_absolute_error(y_test_lnr2, predictions_lnr2))
-    print("MSE: ", metrics.mean_squared_error(y_test_lnr2, predictions_lnr2))
-    print("RMSE: ", np.sqrt(metrics.mean_squared_error(y_test_lnr2, predictions_lnr2)))
+#     # Đánh giá mô hình
+#     print("MAE: ", metrics.mean_absolute_error(y_test_lnr2, predictions_lnr2))
+#     print("MSE: ", metrics.mean_squared_error(y_test_lnr2, predictions_lnr2))
+#     print("RMSE: ", np.sqrt(metrics.mean_squared_error(y_test_lnr2, predictions_lnr2)))
 
-    r2_lin2v = metrics.explained_variance_score(y_test_lnr2, predictions_lnr2) # hàm tính điểm số hồi quy (1.0 là cao nhất)
-    print("Điểm số hồi quy: ", r2_lin2v) 
-    # => Vậy mô hình rất tốt và phù hợp
+#     r2_lin2v = metrics.explained_variance_score(y_test_lnr2, predictions_lnr2) # hàm tính điểm số hồi quy (1.0 là cao nhất)
+#     print("Điểm số hồi quy: ", r2_lin2v) 
+#     # => Vậy mô hình rất tốt và phù hợp
     
-    # Dư lượng
-    sns_lnr2.displot((y_test_lnr2 - predictions_lnr2), kde=True, bins=50)
-    plt_lnr2.title("Dư lượng LNR-2")
-    plt_lnr2.grid(True)
+#     # Dư lượng
+#     sns_lnr2.displot((y_test_lnr2 - predictions_lnr2), kde=True, bins=50)
+#     plt_lnr2.title("Dư lượng LNR-2")
+#     plt_lnr2.grid(True)
 
-    plt_lnr2.show() # Hiển thị
+#     plt_lnr2.show() # Hiển thị
 
-    # Hệ số
-    cdf_lnr2 = pd.DataFrame(lm2.coef_, x_lnr2.columns, columns=["Coefficient"])
-    print(cdf_lnr2) 
-    # => Vậy không có mối tương quan với cột Total Sold, loại bỏ nó ra khỏi dữ liệu phân tích đối với linear regression
-    # => Lặp lại điều tương tự mà không có hệ số đó
+#     # Hệ số
+#     cdf_lnr2 = pd.DataFrame(lm2.coef_, x_lnr2.columns, columns=["Coefficient"])
+#     print(cdf_lnr2) 
+#     # => Vậy không có mối tương quan với cột Total Sold, loại bỏ nó ra khỏi dữ liệu phân tích đối với linear regression
+#     # => Lặp lại điều tương tự mà không có hệ số đó
 
-    # ==================================================================== # LNR1
-    print("\nThực hiện Linear Regression 1 Variable")
-    # Kiểm thử và huấn luyện mô hình
-    # Huấn luyện trên 1 biến: Wholesale Price
-    y_lnr1 = df["Retail Price"] # Gọi y là biến cần tìm (biến phụ thuộc)
-    x_lnr1 = df[['Wholesale Price']] # Gọi x là mối tương quan cần tìm kiếm (biến độc lập)
-    x_train_lnr1, x_test_lnr1, y_train_lnr1, y_test_lnr1 = train_test_split(x_lnr1, y_lnr1, test_size=0.3, random_state=101)
+#     # ==================================================================== # LNR1
+#     print("\nThực hiện Linear Regression 1 Variable")
+#     # Kiểm thử và huấn luyện mô hình
+#     # Huấn luyện trên 1 biến: Wholesale Price
+#     y_lnr1 = df["Retail Price"] # Gọi y là biến cần tìm (biến phụ thuộc)
+#     x_lnr1 = df[['Wholesale Price']] # Gọi x là mối tương quan cần tìm kiếm (biến độc lập)
+#     x_train_lnr1, x_test_lnr1, y_train_lnr1, y_test_lnr1 = train_test_split(x_lnr1, y_lnr1, test_size=0.3, random_state=101)
     
-    # Bắt đầu huấn luyện mô hình
-    lm1 = LinearRegression()
-    lm1.fit(x_train_lnr1, y_train_lnr1)
+#     # Bắt đầu huấn luyện mô hình
+#     lm1 = LinearRegression()
+#     lm1.fit(x_train_lnr1, y_train_lnr1)
     
-    # Dự đoán dữ liệu thử nghiệm
-    predictions_lnr1 = lm1.predict(x_test_lnr1)
-    sns_lnr1.scatterplot(x=y_test_lnr1, y=predictions_lnr1)
-    plt_lnr1.title("Dự đoán dữ liệu thử nghiệm LNR-1")
-    plt_lnr1.xlabel("Y Test (True Values)")
-    plt_lnr1.ylabel("Predicted Values")
-    plt_lnr1.grid(True)
+#     # Dự đoán dữ liệu thử nghiệm
+#     predictions_lnr1 = lm1.predict(x_test_lnr1)
+#     sns_lnr1.scatterplot(x=y_test_lnr1, y=predictions_lnr1)
+#     plt_lnr1.title("Dự đoán dữ liệu thử nghiệm LNR-1")
+#     plt_lnr1.xlabel("Y Test (True Values)")
+#     plt_lnr1.ylabel("Predicted Values")
+#     plt_lnr1.grid(True)
 
-    # Đánh giá mô hình
-    print("MAE: ", metrics.mean_absolute_error(y_test_lnr1, predictions_lnr1))
-    print("MSE: ", metrics.mean_squared_error(y_test_lnr1, predictions_lnr1))
-    print("RMSE: ", np.sqrt(metrics.mean_squared_error(y_test_lnr1, predictions_lnr1)))
+#     # Đánh giá mô hình
+#     print("MAE: ", metrics.mean_absolute_error(y_test_lnr1, predictions_lnr1))
+#     print("MSE: ", metrics.mean_squared_error(y_test_lnr1, predictions_lnr1))
+#     print("RMSE: ", np.sqrt(metrics.mean_squared_error(y_test_lnr1, predictions_lnr1)))
 
-    r2_lin1v = metrics.explained_variance_score(y_test_lnr1, predictions_lnr1) # hàm tính điểm số hồi quy (1.0 là cao nhất)
-    print("Điểm số hồi quy: ", r2_lin1v) 
+#     r2_lin1v = metrics.explained_variance_score(y_test_lnr1, predictions_lnr1) # hàm tính điểm số hồi quy (1.0 là cao nhất)
+#     print("Điểm số hồi quy: ", r2_lin1v) 
 
-    # Dư lượng
-    sns_lnr1.displot((y_test_lnr1 - predictions_lnr1), kde=True, bins=50)
-    plt_lnr1.title("Dư lượng LNR-1")
-    plt_lnr1.grid(True)
+#     # Dư lượng
+#     sns_lnr1.displot((y_test_lnr1 - predictions_lnr1), kde=True, bins=50)
+#     plt_lnr1.title("Dư lượng LNR-1")
+#     plt_lnr1.grid(True)
 
-    plt_lnr1.show() # Hiển thị
+#     plt_lnr1.show() # Hiển thị
 
-    # Hệ số
-    cdf_lnr1 = pd.DataFrame(lm1.coef_, x_lnr1.columns, columns=["Coefficient"])
-    print(cdf_lnr1)
+#     # Hệ số
+#     cdf_lnr1 = pd.DataFrame(lm1.coef_, x_lnr1.columns, columns=["Coefficient"])
+#     print(cdf_lnr1)
 
     # ==================================================================== # SVR
     print("Thực hiện SVR")
@@ -258,7 +257,7 @@ def DA(df):
     svr_lin = SVR(kernel="linear", C=100, gamma="auto")
     svr_poly = SVR(kernel="poly", C=100, gamma="auto", degree=3, epsilon=0.1, coef0=1)
 
-    # Thực nghiệm huấn luyện mô hình
+    # Huấn luyện mô hình
     svr_rbf.fit(x_train_svr, y_train_svr) #RBF
     predictions_rbf = svr_rbf.predict(x_test_svr)
 
@@ -277,14 +276,17 @@ def DA(df):
     # RBF
     sns_svr.scatterplot(ax=axes[0], x=y_test_svr, y=predictions_rbf)
     axes[0].set_title('RBF')
+    axes[0].grid(True)
 
     # Linear
     sns_svr.scatterplot(ax=axes[1], x=y_test_svr, y=predictions_lin)
     axes[1].set_title('Linear')
-
+    axes[1].grid(True)
+    
     # Poly
     sns_svr.scatterplot(ax=axes[2], x=y_test_svr, y=predictions_poly)
     axes[2].set_title('Poly')
+    axes[2].grid(True)
 
     plt_svr.show() # Hiển thị
 
@@ -292,54 +294,56 @@ def DA(df):
     r2_rbf = metrics.explained_variance_score(y_test_svr, predictions_rbf)
     r2_lin = metrics.explained_variance_score(y_test_svr, predictions_lin)
     r2_poly = metrics.explained_variance_score(y_test_svr, predictions_poly)
-    print(r2_rbf, r2_lin, r2_poly)
+    print("Điểm số hồi quy (RBF): ", r2_rbf)
+    print("Điểm số hồi quy (Linear): ", r2_lin)
+    print("Điểm số hồi quy (Poly): ", r2_poly)
 
-    # ==================================================================== # Giả định
-    print("Thực hiện giả định")
-    # Dự đoán giá bán lẻ của một mặt hàng có giá bán sỉ là 199,99 và tổng lượng bán dự kiến ​​là 500 trong 5 năm
-    new_product2v = [[199.99, 500]]
-    new_product1v = [[199.99]]
-    new_product2v_svr = scaler.transform([[199.99, 500]])
+    # # ==================================================================== # Giả định
+    # print("Thực hiện giả định")
+    # # Dự đoán giá bán lẻ của một mặt hàng có giá bán sỉ là 199,99 và tổng lượng bán dự kiến ​​là 500 trong 5 năm
+    # new_product2v = [[199.99, 500]]
+    # new_product1v = [[199.99]]
+    # new_product2v_svr = scaler.transform([[199.99, 500]])
 
-    single_prediction2v = lm2.predict(new_product2v)
-    single_prediction1v = lm1.predict(new_product1v)
+    # single_prediction2v = lm2.predict(new_product2v)
+    # single_prediction1v = lm1.predict(new_product1v)
 
-    single_prediction_rbf = svr_rbf.predict(new_product2v_svr)
-    single_prediction_lin = svr_lin.predict(new_product2v_svr)
-    single_prediction_poly = svr_poly.predict(new_product2v_svr)
+    # single_prediction_rbf = svr_rbf.predict(new_product2v_svr)
+    # single_prediction_lin = svr_lin.predict(new_product2v_svr)
+    # single_prediction_poly = svr_poly.predict(new_product2v_svr)
     
-    cdf_predict = pd.DataFrame([single_prediction2v, single_prediction1v, single_prediction_rbf, single_prediction_lin, single_prediction_poly],
-                       ['LinReg 2v', 'LinReg 1v', 'SVR RBF', 'SVR Linear', 'SVR Poly'], 
-                       columns=["Predictions"])
-    print(cdf_predict)
+    # cdf_predict = pd.DataFrame([single_prediction2v, single_prediction1v, single_prediction_rbf, single_prediction_lin, single_prediction_poly],
+    #                    ['LinReg 2v', 'LinReg 1v', 'SVR RBF', 'SVR Linear', 'SVR Poly'], 
+    #                    columns=["Predictions"])
+    # print(cdf_predict)
     
-    # ==================================================================== # Thử nghiệm độ lệch trên các phương pháp
-    print("Thực hiện thực nghiệm trên dữ liệu")
+    # # ==================================================================== # Thử nghiệm độ lệch trên các phương pháp
+    # print("Thực hiện thực nghiệm trên dữ liệu")
 
-    real_variables_2v = df.loc[df["Retail Price"].isin(list(range(0,301)))][["Wholesale Price", "Total Sold"]].values
-    real_variables_1v = df.loc[df["Retail Price"].isin(list(range(0,301)))]["Wholesale Price"].values
-    real_variables_2v_svr = scaler.transform(real_variables_2v)
-    real_retail_upto300 = df.loc[df["Retail Price"].isin(list(range(0,301)))]["Retail Price"].values
+    # real_variables_2v = df.loc[df["Retail Price"].isin(list(range(0,301)))][["Wholesale Price", "Total Sold"]].values
+    # real_variables_1v = df.loc[df["Retail Price"].isin(list(range(0,301)))]["Wholesale Price"].values
+    # real_variables_2v_svr = scaler.transform(real_variables_2v)
+    # real_retail_upto300 = df.loc[df["Retail Price"].isin(list(range(0,301)))]["Retail Price"].values
 
-    real_variables_1v = real_variables_1v.reshape(-1, 1)
+    # real_variables_1v = real_variables_1v.reshape(-1, 1)
 
-    lin_reg_prediction2v = lm2.predict(real_variables_2v)
-    lin_reg_prediction1v = lm1.predict(real_variables_1v)
-    rbf_prediction = svr_rbf.predict(real_variables_2v_svr)
-    lin_prediction = svr_lin.predict(real_variables_2v_svr)
-    poly_prediction = svr_poly.predict(real_variables_2v_svr)
+    # lin_reg_prediction2v = lm2.predict(real_variables_2v)
+    # lin_reg_prediction1v = lm1.predict(real_variables_1v)
+    # rbf_prediction = svr_rbf.predict(real_variables_2v_svr)
+    # lin_prediction = svr_lin.predict(real_variables_2v_svr)
+    # poly_prediction = svr_poly.predict(real_variables_2v_svr)
 
-    sns_all.regplot(x=real_retail_upto300, y=real_retail_upto300, color='black', scatter=False)
-    sns_all.regplot(x=real_retail_upto300, y=lin_reg_prediction2v, color='blue', scatter=False)
-    sns_all.regplot(x=real_retail_upto300, y=lin_reg_prediction1v, color='yellow', scatter=False)
-    sns_all.regplot(x=real_retail_upto300, y=rbf_prediction, color='red', scatter=False)
-    sns_all.regplot(x=real_retail_upto300, y=lin_prediction, color='orange', scatter=False)
-    sns_all.regplot(x=real_retail_upto300, y=poly_prediction, color='green', scatter=False)
-    plt_all.show() # Hiển thị
+    # sns_all.regplot(x=real_retail_upto300, y=real_retail_upto300, color='black', scatter=False)
+    # sns_all.regplot(x=real_retail_upto300, y=lin_reg_prediction2v, color='blue', scatter=False)
+    # sns_all.regplot(x=real_retail_upto300, y=lin_reg_prediction1v, color='yellow', scatter=False)
+    # sns_all.regplot(x=real_retail_upto300, y=rbf_prediction, color='red', scatter=False)
+    # sns_all.regplot(x=real_retail_upto300, y=lin_prediction, color='orange', scatter=False)
+    # sns_all.regplot(x=real_retail_upto300, y=poly_prediction, color='green', scatter=False)
+    # plt_all.show() # Hiển thị
 
-    # So sánh điểm số hồi quy giữa các phương pháp
-    cdf_all = pd.DataFrame([r2_lin2v, r2_lin1v, r2_rbf, r2_lin, r2_poly],
-                           ['LinReg 2v', 'LinReg 1v', 'SVR RBF', 'SVR Linear', 'SVR Poly'], 
-                           columns=["R2"])
-    print(cdf_all)
-    # kết luận Phương pháp huấn luyện mô hình tốt nhất là SVR Poly
+    # # So sánh điểm số hồi quy giữa các phương pháp
+    # cdf_all = pd.DataFrame([r2_lin2v, r2_lin1v, r2_rbf, r2_lin, r2_poly],
+    #                        ['LinReg 2v', 'LinReg 1v', 'SVR RBF', 'SVR Linear', 'SVR Poly'], 
+    #                        columns=["R2"])
+    # print(cdf_all)
+    # # kết luận Phương pháp huấn luyện mô hình tốt nhất là SVR Poly
