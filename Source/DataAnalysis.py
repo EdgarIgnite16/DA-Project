@@ -27,7 +27,9 @@ def Analysis(ProductDf, OrderDf):
     # pricesVaryWithinCategories_Re(ProductDf)
     # ShowValuebaleBetweenCustomerRank(OrderDf)
     # describeDF(ProductDf) # Mô tả thông số thống kê
-    rowAppearsFrequencyForMonth(OrderDf)
+    # rowAppearsFrequencyForMonth(OrderDf)
+
+    print(OrderDf)
 
     # Data Analyst
     # DA(ProductDf)
