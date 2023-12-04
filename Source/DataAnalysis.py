@@ -25,11 +25,9 @@ def Analysis(ProductDf, OrderDf):
     # productLagestAndSmallest(ProductDf)
     # pricesVaryWithinCategories_WS(ProductDf)
     # pricesVaryWithinCategories_Re(ProductDf)
-    # ShowValuebaleBetweenCustomerRank(OrderDf)
+    ShowValuebaleBetweenCustomerRank(OrderDf)
+    rowAppearsFrequencyForMonth(OrderDf)
     # describeDF(ProductDf) # Mô tả thông số thống kê
-    # rowAppearsFrequencyForMonth(OrderDf)
-
-    print(OrderDf)
 
     # Data Analyst
     # DA(ProductDf)
