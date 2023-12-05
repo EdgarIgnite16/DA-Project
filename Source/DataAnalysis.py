@@ -25,12 +25,12 @@ def Analysis(ProductDf, OrderDf):
     # productLagestAndSmallest(ProductDf)
     # pricesVaryWithinCategories_WS(ProductDf)
     # pricesVaryWithinCategories_Re(ProductDf)
-    ShowValuebaleBetweenCustomerRank(OrderDf)
-    rowAppearsFrequencyForMonth(OrderDf)
+    # ShowValuebaleBetweenCustomerRank(OrderDf)
+    # rowAppearsFrequencyForMonth(OrderDf)
     # describeDF(ProductDf) # Mô tả thông số thống kê
 
     # Data Analyst
-    # DA(ProductDf)
+    DA(ProductDf)
 
 # ==================================================== #
 # Hiển thị biểu đồ tỷ suất lợi nhuận
@@ -317,10 +317,12 @@ def DA(df):
 
     # ==================================================================== # Giả định
     print("Thực hiện giả định")
-    # Dự đoán giá bán lẻ của một mặt hàng có giá bán sỉ là 199,99 và tổng lượng bán dự kiến ​​là 500 trong 5 năm
-    new_product2v = [[199.99, 500]]
-    new_product1v = [[199.99]]
-    new_product2v_svr = scaler.transform([[199.99, 500]])
+    # Dự đoán giá bán lẻ của một mặt hàng có giá bán sỉ là x và tổng lượng bán dự kiến ​​là y trong 5 năm
+    x = 1000
+    y = 500
+    new_product2v = [[x, y]]
+    new_product1v = [[x]]
+    new_product2v_svr = scaler.transform([[x, y]])
 
     single_prediction2v = lm2.predict(new_product2v)
     single_prediction1v = lm1.predict(new_product1v)
@@ -334,8 +336,8 @@ def DA(df):
                        columns=["Predictions"])
     print(cdf_predict)
     
-    # ==================================================================== # Thử nghiệm độ lệch trên các phương pháp
-    # print("Thực hiện thực nghiệm trên dữ liệu thực")
+    # # ==================================================================== # Thử nghiệm độ lệch trên các phương pháp
+    # # print("Thực hiện thực nghiệm trên dữ liệu thực")
     # real_variables_2v = df.loc[df["Retail Price"].isin(list(range(0,301)))][["Wholesale Price", "Total Sold"]].values
     # real_variables_1v = df.loc[df["Retail Price"].isin(list(range(0,301)))]["Wholesale Price"].values
     # real_variables_2v_svr = scaler.transform(real_variables_2v)
@@ -349,7 +351,7 @@ def DA(df):
     # lin_prediction = svr_lin.predict(real_variables_2v_svr)
     # poly_prediction = svr_poly.predict(real_variables_2v_svr)
 
-    # sns_all.regplot(x=real_retail_upto300, y=real_retail_upto300, color='black', scatter=False)
+    # sns_all.scatterplot(x=real_retail_upto300, y=real_retail_upto300, color='black')
     # sns_all.regplot(x=real_retail_upto300, y=lin_reg_prediction2v, color='blue', scatter=False)
     # sns_all.regplot(x=real_retail_upto300, y=lin_reg_prediction1v, color='yellow', scatter=False)
     # sns_all.regplot(x=real_retail_upto300, y=rbf_prediction, color='red', scatter=False)
@@ -363,4 +365,3 @@ def DA(df):
                            ['LinReg 2v', 'LinReg 1v', 'SVR RBF', 'SVR Linear', 'SVR Poly'], 
                            columns=["R2"])
     print(cdf_all)
-    # kết luận Phương pháp huấn luyện mô hình tốt nhất là SVR Poly
