@@ -1,0 +1,29 @@
+chào thầy và các bạn
+
+nhóm em làm trên 2 bộ dữ liệu là 
+orders.csv: là dữ liệu về lịch sử bán hàng (dịch tên mấy cái cột ra)
+product-supplier.csv: là dữ liệu về mặt hàng như (dịch tên mấy cái cột ra)
+
+Tiếp theo nhóm chúng em kt xem 2 bộ dữ liệu có giá trị NULL hay NaN không
+
+Biến đổi dữ liệu
+Biến đổi 2 cột thành ngày tháng năm phù hợp để phân tích
+
+dùng lệnh unique() kiểm tra trên cột của tập dữ liệu có bị trùng lặp hay không 
+	=> kết quả cho thấy cột Customer Status bị trùng lặp dữ liệu
+Do đó nhóm em xử lý vấn đề này và gom nó thành dữ liệu duy nhất
+
+Nhóm quyết định thêm 1 cột mới là Item Retail Value có công thức là...
+
+Tạo ra bộ dữ liệu mới từ orderDF (giải thích từng cột), nó là lịch sử bán hàng group lại theo Product ID
+
+Để tạo ra bộ dữ liệu mà nhóm chúng em dùng để phân tích trong bài báo cáo thì nhóm group bộ dữ liệu mà em vừa tạo mới với
+ bộ dữ liệu Product-supplier.csv theo mã sản phẩm (productID)
+
+Để thuận tiện cho việc phân tích, nhóm chúng em quyết định drop các cột không cần thiết trong việc phân tích
+	=> (Drop xong, giới thiệu cái bảng)
+Sau quá trình tiền xử lý, nhóm chúng em thu được 2 bộ dữ liệu:
+	1 cái là thông tin lịch sử bán hàng, gọi là OrderDf
+	1 cái là thông tin bán hàng của từng sản phẩm, gọi là ProductDf
+
+
